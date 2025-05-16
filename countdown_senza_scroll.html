@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Matrimonio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+    #countdown-container {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      padding: 10px;
+      margin: 0 auto;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    #countdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      flex-wrap: wrap;
+    }
+
+    .countdown-item {
+      flex: 0 0 100px;
+      width: 100px;
+      height: 100px;
+      padding: 15px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .countdown-item span:first-child {
+      font-size: 1.3em;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .countdown-item span:last-child {
+      font-size: 1em;
+      white-space: nowrap;
+    }
+
+    h2 {
+      color: #444;
+      font-size: 1.6em;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .countdown-item {
+        flex: 0 0 60px;
+        width: 60px;
+        height: 60px;
+        padding: 8px;
+      }
+
+      .countdown-item span:first-child {
+        font-size: 0.9em;
+      }
+
+      .countdown-item span:last-child {
+        font-size: 0.7em;
+      }
+
+      h2 {
+        font-size: 1.3em;
+        margin-bottom: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown-container">
+    <div id="countdown">
+      <div class="countdown-item">
+        <span id="giorni"></span>
+        <span>Giorni</span>
+      </div>
+      <div class="countdown-item">
+        <span id="ore"></span>
+        <span>Ore</span>
+      </div>
+      <div class="countdown-item">
+        <span id="minuti"></span>
+        <span>Minuti</span>
+      </div>
+      <div class="countdown-item">
+        <span id="secondi"></span>
+        <span>Secondi</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const dataMatrimonio = new Date("July 5, 2025 17:00:00").getTime();
+
+    const x = setInterval(function () {
+      const now = new Date().getTime();
+      const distanza = dataMatrimonio - now;
+
+      const giorni = Math.floor(distanza / (1000 * 60 * 60 * 24));
+      const ore = Math.floor((distanza % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minuti = Math.floor((distanza % (1000 * 60 * 60)) / (1000 * 60));
+      const secondi = Math.floor((distanza % (1000 * 60)) / 1000);
+
+      document.getElementById("giorni").innerText = giorni;
+      document.getElementById("ore").innerText = ore;
+      document.getElementById("minuti").innerText = minuti;
+      document.getElementById("secondi").innerText = secondi;
+
+      if (distanza < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "<strong>Ci siamo sposati!</strong>";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
