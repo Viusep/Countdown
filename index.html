@@ -1,55 +1,121 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Countdown</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown Matrimonio</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden; /* Disabilita le barre di scorrimento */
-      background-color: black;
-      color: white;
-      font-family: sans-serif;
+      overflow: hidden;
+      height: auto;
+      background: transparent;
+      font-family: 'Playfair Display', serif;
+    }
+
+    #countdown-container {
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 10px 0;
     }
-    .countdown {
-      font-size: 4em;
+
+    #countdown {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .countdown-item {
+      flex: 0 0 80px;
+      width: 80px;
+      height: 80px;
+      padding: 10px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .countdown-item span:first-child {
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .countdown-item span:last-child {
+      font-size: 0.8em;
+    }
+
+    @media (max-width: 600px) {
+      .countdown-item {
+        width: 60px;
+        height: 60px;
+        padding: 6px;
+      }
+
+      .countdown-item span:first-child {
+        font-size: 0.9em;
+      }
+
+      .countdown-item span:last-child {
+        font-size: 0.7em;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="countdown" id="timer">00:00:00</div>
+  <div id="countdown-container">
+    <div id="countdown">
+      <div class="countdown-item">
+        <span id="giorni">--</span>
+        <span>Giorni</span>
+      </div>
+      <div class="countdown-item">
+        <span id="ore">--</span>
+        <span>Ore</span>
+      </div>
+      <div class="countdown-item">
+        <span id="minuti">--</span>
+        <span>Minuti</span>
+      </div>
+      <div class="countdown-item">
+        <span id="secondi">--</span>
+        <span>Secondi</span>
+      </div>
+    </div>
+  </div>
 
   <script>
-    function startCountdown(duration) {
-      const timerDisplay = document.getElementById('timer');
-      let remaining = duration;
+    const dataMatrimonio = new Date("July 5, 2025 17:00:00").getTime();
 
-      const update = () => {
-        const hours = String(Math.floor(remaining / 3600)).padStart(2, '0');
-        const minutes = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
-        const seconds = String(remaining % 60).padStart(2, '0');
+    const x = setInterval(function () {
+      const now = new Date().getTime();
+      const distanza = dataMatrimonio - now;
 
-        timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+      const giorni = Math.floor(distanza / (1000 * 60 * 60 * 24));
+      const ore = Math.floor((distanza % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minuti = Math.floor((distanza % (1000 * 60 * 60)) / (1000 * 60));
+      const secondi = Math.floor((distanza % (1000 * 60)) / 1000);
 
-        if (remaining > 0) {
-          remaining--;
-          setTimeout(update, 1000);
-        }
-      };
+      document.getElementById("giorni").innerText = giorni;
+      document.getElementById("ore").innerText = ore;
+      document.getElementById("minuti").innerText = minuti;
+      document.getElementById("secondi").innerText = secondi;
 
-      update();
-    }
-
-    // Countdown di 5 minuti (300 secondi)
-    startCountdown(300);
+      if (distanza < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "<strong>Ci siamo sposati!</strong>";
+      }
+    }, 1000);
   </script>
 </body>
 </html>
-
